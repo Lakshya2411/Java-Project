@@ -46,6 +46,11 @@ public class RegisterGUI extends JFrame {
         String password = new String(passwordField.getPassword()).trim();
         String email = emailField.getText().trim();
 
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username and password are required.");
+            return;
+        }
+
         String jdbcUrl = System.getenv().getOrDefault("DB_URL", "jdbc:mysql://localhost:3306/story_login_db");
         String dbUser = System.getenv().getOrDefault("DB_USER", "root");
         String dbPass = System.getenv().getOrDefault("DB_PASS", "");
@@ -68,7 +73,7 @@ public class RegisterGUI extends JFrame {
             String insertSQL = "INSERT INTO users (username, password_hash, email) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insertSQL);
             stmt.setString(1, username);
-            stmt.setString(2, password);
+            stmt.setString(2, PasswordUtil.hash(password));
             stmt.setString(3, email);
 
             int rows = stmt.executeUpdate();

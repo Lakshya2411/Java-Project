@@ -78,14 +78,13 @@ public class Login extends JFrame {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
 
-            String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
+            String sql = "SELECT password_hash FROM users WHERE username = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
-            stmt.setString(2, password);
 
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            if (rs.next() && PasswordUtil.verify(password, rs.getString("password_hash"))) {
                 showMessage("Welcome, " + username + "! Get Ready for Java Quiz!!");
                 dispose();
                 new QuizSystem(username);
