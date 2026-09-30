@@ -46,9 +46,9 @@ public class RegisterGUI extends JFrame {
         String password = new String(passwordField.getPassword()).trim();
         String email = emailField.getText().trim();
 
-        String jdbcUrl = "jdbc:mysql://localhost:3306/story_login_db";
-        String dbUser = "root";
-        String dbPass = "LAK242004";
+        String jdbcUrl = System.getenv().getOrDefault("DB_URL", "jdbc:mysql://localhost:3306/story_login_db");
+        String dbUser = System.getenv().getOrDefault("DB_USER", "root");
+        String dbPass = System.getenv().getOrDefault("DB_PASS", "");
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

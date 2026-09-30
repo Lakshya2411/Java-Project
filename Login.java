@@ -7,9 +7,9 @@ public class Login extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton, registerButton;
 
-    private final String jdbcUrl = "jdbc:mysql://localhost:3306/story_login_db";
-    private final String dbUser = "root";
-    private final String dbPass = "LAK242004";
+    private final String jdbcUrl = System.getenv().getOrDefault("DB_URL", "jdbc:mysql://localhost:3306/story_login_db");
+    private final String dbUser = System.getenv().getOrDefault("DB_USER", "root");
+    private final String dbPass = System.getenv().getOrDefault("DB_PASS", "");
 
     public Login() {
         setTitle("User Login");
